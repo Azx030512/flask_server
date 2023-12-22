@@ -13,7 +13,7 @@ import random
 # echo=True， 可以在控制台看到操作涉及的SQL语言
 
 engine = create_engine(
-    "mysql+pymysql://root:azx012624@127.0.0.1:3306/mqtt", echo=True)
+    "mysql+pymysql://root:azx@127.0.0.1:3306/mqtt", echo=True)
 
 # 创建缓存对象
 Session = sessionmaker(bind=engine)
