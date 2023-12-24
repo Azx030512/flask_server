@@ -130,13 +130,13 @@ def position_query():
                 messages.sort(key=lambda x: x.timestamp, reverse=True)
                 if len(messages)==0:
                     continue
-                positions.append( {'lng': messages[0].longitude, 'lat':messages[0].latitude,'tag':messages[0].device_id } )
+                positions.append( {'lng': messages[0].longitude, 'lat':messages[0].latitude,'tag':messages[0].device_id, 'color':"blue" } )
         else:
             messages = session.query(IotMessage).filter_by(
                 device_id=specify_device_id).all()
             messages.sort(key=lambda x: x.timestamp, reverse=True)
             for i in range(0, min(len(messages), 50), 10):
-                positions.append({'lng': messages[i].longitude, 'lat':messages[i].latitude, 'tag':(str(i)+'min前' if i!=0 else "现在") } )
+                positions.append({'lng': messages[i].longitude, 'lat':messages[i].latitude, 'tag':((str(i)+'min前' if i!=0 else "现在")+(" "+"报警" if messages[i].alert else "正常")), 'color':("red" if messages[i].alert else "blue") } )
                 track.append({'lng': messages[i].longitude, 'lat':messages[i].latitude})
 
         session.close()
