@@ -243,4 +243,4 @@ def radar_data():
 
 if __name__ == '__main__':
 
-    api.run(debug=True, port=5001, host='127.0.0.1')
+    api.run(debug=False, port=5001, host='127.0.0.1')

@@ -12,12 +12,7 @@ import random
 # 指向数据库的一些核心的接口
 # echo=True， 可以在控制台看到操作涉及的SQL语言
 
-engine = create_engine(
-    "mysql+pymysql://root:azx@127.0.0.1:3306/mqtt", echo=True)
 
-# 创建缓存对象
-Session = sessionmaker(bind=engine)
-# session = Session()
 # 声明基类
 Base = declarative_base()
 
@@ -129,46 +124,32 @@ class IotMessage(Base):
             information['longitude'] = round(information['longitude'], accuracy)
         return information
 
-
-# 检查表的存在性，如果不存在的话会执行表的创建工作
-Base.metadata.create_all(bind=engine)
+try:
+    port = "3308"
+    engine = create_engine(
+        "mysql+pymysql://root:azx@127.0.0.1:"+port+"/mqtt", echo=True)
+        
+    # 检查表的存在性，如果不存在的话会执行表的创建工作
+    Base.metadata.create_all(bind=engine)
+    # 创建缓存对象
+    Session = sessionmaker(bind=engine)
+    print("mysql use port 3308")
+except:
+    port = "3306"
+    engine = create_engine(
+        "mysql+pymysql://root:azx@127.0.0.1:"+port+"/mqtt", echo=True)
+        
+    # 检查表的存在性，如果不存在的话会执行表的创建工作
+    Base.metadata.create_all(bind=engine)
+    # 创建缓存对象
+    Session = sessionmaker(bind=engine)
+    print("mysql use port 3306")
 
 
 if __name__ == '__main__':
 
     session = Session()
-    # 添加单条数据
-    # p = Account(user_name="azx",password="123", email='xiaoming@westos.org',date=time.localtime())
-    p = Account("azx", "123", '1120712503@qq.com')
-    # 先将数据写入缓存;
-    session.add(p)
-    # 将缓存中的数据提交到数据库并执行
-    session.commit()
-
-    # #  添加多条数据
-    # p1 = Account(name='A')
-    # p2 = Account(name='B')
-    # # 先将数据写入缓存;
-    # session.add_all((p1, p2))
-    # # 将缓存中的数据提交到数据库并执行
-    # session.commit()
-
-    # # 查找数据
-    # # select * from students where ()
-    results = session.query(Account).all()  # 查找表的所有数据
-    print(results)
-
-    result = session.query(Account).first()  # 查找表的第一条数据
-    print(result)
-
-    obj = session.query(Account).filter_by(name='azx').first()
-    print("邮箱地址:", obj.email)
-
-    # # 删除数据，没有first/all方法， 默认返回的是要执行的sql语句;
-    # obj = session.query(Account).filter_by(name='azx').first()
-    # print(obj)
-    # obj.email
-    # session.object_session()
-    # session.delete(obj)
-    # session.commit()
+    devices = session.query(Device).all()
+    for device in devices:
+        print(device.show_info())
     session.close()

@@ -399,5 +399,5 @@ def compute_values(messages):
 
 
 if __name__ == '__main__':
-    api.run(debug=True, port=5002, host='127.0.0.1')
+    api.run(debug=False, port=5002, host='127.0.0.1')
     # chart_data_query()
