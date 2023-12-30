@@ -112,7 +112,7 @@ if __name__ == '__main__':
         client = mqtt_client.Client()
         client.user_data_set({"device_id": device.device_id})
         client.on_connect = on_connect
-        client.connect("127.0.0.1", 1883, 60)
+        client.connect("127.0.0.1", 1883, 6000)
         device_client_list.append(client)
     while (True):
         index = random.randint(0, len(device_list)-1)
