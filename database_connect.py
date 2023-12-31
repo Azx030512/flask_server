@@ -125,7 +125,7 @@ class IotMessage(Base):
         return information
 
 try:
-    port = "3308"
+    port = "3306"
     engine = create_engine(
         "mysql+pymysql://root:azx@127.0.0.1:"+port+"/mqtt", echo=True)
         
@@ -133,8 +133,9 @@ try:
     Base.metadata.create_all(bind=engine)
     # 创建缓存对象
     Session = sessionmaker(bind=engine)
-    print("mysql use port 3308")
+    print("mysql use port 3306")
 except:
+    time.sleep(5)
     port = "3306"
     engine = create_engine(
         "mysql+pymysql://root:azx@127.0.0.1:"+port+"/mqtt", echo=True)

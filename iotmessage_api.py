@@ -171,9 +171,9 @@ def chart_data_query():
         }
         current_date = datetime(**current_time_dict)
         for i in range(-1, 7):
-            temp_date = datetime(
-                current_date.year, current_date.month, current_date.day - i)
-            date_list.append(temp_date)
+            temp_date = time.strftime("%Y-%m-%d",time.localtime(time.time()-i*24*60*60))
+            date_list.append(datetime.fromisoformat(temp_date))
+            
         date_list.reverse()
         for temp_date in date_list[:-1]:
             x.append(temp_date.isoformat().split('T')[0])
@@ -200,7 +200,7 @@ def chart_data_query():
             data_flow.append(compute_dataflow(date_cluster[key]))
         chart1_dataflow['data_flow'] = [
             {'x': x[i], 'y': data_flow[i]} for i in range(len(data_flow))]
-        chart1_dataflow['average'] = round(sum(data_flow)/len(data_flow), 2)
+        chart1_dataflow['average'] = round(sum(data_flow)/(len(data_flow)+1), 2)
         result['chart1_dataflow'] = chart1_dataflow
 
         chart2_activedevice = {'x': x}
@@ -210,7 +210,7 @@ def chart_data_query():
         chart2_activedevice['activedevice'] = [
             {'x': x[i], 'y': activedevice[i]} for i in range(len(activedevice))]
         chart2_activedevice['average'] = round(
-            sum(activedevice)/len(activedevice), 2)
+            sum(activedevice)/(len(activedevice)+1), 2)
         result['chart2_activedevice'] = chart2_activedevice
 
         chart3_alerts = {'x': x}
@@ -219,7 +219,7 @@ def chart_data_query():
             alerts.append(compute_alerts(date_cluster[key]))
         chart3_alerts['alerts'] = [
             {'x': x[i], 'y': alerts[i]} for i in range(len(alerts))]
-        chart3_alerts['average'] = round(sum(alerts)/len(alerts), 2)
+        chart3_alerts['average'] = round(sum(alerts)/(len(alerts)+1), 2)
         result['chart3_alerts'] = chart3_alerts
 
         chart4_values = {'x': x}
@@ -228,7 +228,7 @@ def chart_data_query():
             values.append(compute_values(date_cluster[key]))
         chart4_values['values'] = [
             {'x': x[i][5:], 'y': values[i]} for i in range(len(values))]
-        chart4_values['average'] = round(sum(values)/len(values), 2)
+        chart4_values['average'] = round(sum(values)/(len(values)+1), 2)
         result['chart4_values'] = chart4_values
 
         chart5_times = {'x': x}
@@ -238,7 +238,7 @@ def chart_data_query():
                 date_cluster[key], per_data_volume=2))
         chart5_times['times'] = [{'x': x[i][5:], 'y': times[i]}
                                  for i in range(len(times))]
-        chart5_times['average'] = round(sum(times)/len(times), 2)
+        chart5_times['average'] = round(sum(times)/(len(times)+1), 2)
         result['chart5_times'] = chart5_times
 
         device_cluster = {}
