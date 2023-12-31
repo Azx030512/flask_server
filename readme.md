@@ -20,10 +20,10 @@ docker build --file mosquitto.dockerfile -t mosquitto .
 
 ### start database 
 
-**可能本机的3306端口已经被本机数据库软件占用了，docker中的数据库映射到3308端口**
+**可能本机的3306端口已经被本机数据库软件占用了，需要关闭本机的占用程序**
 
 ```
-docker run -p 3308:3306 mysql  
+docker run mysql  
 ```
 
 ### start mosquitto(mqtt broker)
@@ -31,12 +31,12 @@ docker run -p 3308:3306 mysql
 **可能本机的1883端口已经被本机数据库软件占用了，需要关闭本机的mqtt server**
 
 ```
-docker run -p 1883:1883 mosquitto 
+docker run mosquitto 
 ```
 
 ### start backend(Flask)
 
 ```
-docker run --network=host -p 5000:5000 -p 5001:5001 -p 5002:5002  backend
+docker run --network=host  backend
 ```
 
