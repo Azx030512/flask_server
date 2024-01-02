@@ -127,7 +127,7 @@ class IotMessage(Base):
 try:
     port = "3306"
     engine = create_engine(
-        "mysql+pymysql://root:azx@127.0.0.1:"+port+"/mqtt", echo=True)
+        "mysql+pymysql://root:lyh031026@116.62.11.140:"+port+"/mqtt", echo=True)
         
     # 检查表的存在性，如果不存在的话会执行表的创建工作
     Base.metadata.create_all(bind=engine)
